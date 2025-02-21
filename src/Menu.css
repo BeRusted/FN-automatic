@@ -1,0 +1,42 @@
+.custom-title-bar {
+    display: flex;
+    position: fixed;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 35px;
+    background-color: rgb(34, 31, 34);
+    padding: 0 10px;
+    -webkit-app-region: drag;
+    cursor: move;
+}
+
+/* 左侧功能按钮 */
+.custom-title-bar .left {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.logo {
+    height: 15px;
+    width: auto;
+}
+.custom-title-bar .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 50%;
+
+}
+
+/* 右侧窗口控制按钮 */
+.custom-title-bar .right {
+    display: flex;
+    align-items: stretch;
+    position: relative;
+}

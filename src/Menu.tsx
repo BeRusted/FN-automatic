@@ -1,12 +1,12 @@
-import { Box,Button, InputBase, styled, } from "@mui/material";
+import { Box, Button, InputBase, styled, } from "@mui/material";
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import logo from "./assets/logo.svg"
 import "./Menu.css";
-
+import { useState, useEffect } from "react";
 const LeftButton = styled(Button)(({ }) => ({
     fontSize: "13px",
-    fontWeight: 400,
-    color: "rgb(187, 186, 186)",
+    fontWeight: 100,
+    color: "rgb(172, 172, 172)",
     background: "none",
     border: "none",
     padding: "3px",
@@ -14,6 +14,8 @@ const LeftButton = styled(Button)(({ }) => ({
     width: "55px",
     minWidth: "20px",
     height: "25px",
+    cursor: "default",
+    "-webkit-app-region": "no-drag",
     "&:hover": {
         backgroundColor: "rgba(255, 255, 255, 0.1)",
     },
@@ -28,6 +30,7 @@ const CenterSearch = styled(InputBase)(({ }) => ({
     minWidth: "0px",
     color: "#fff",
     right: "35px",
+    "-webkit-app-region": "no-drag",
     "&:hover": {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
     },
@@ -43,13 +46,13 @@ const CenterSearch = styled(InputBase)(({ }) => ({
     "& .MuiInputBase-input::placeholder": {
         textAlign: "center",
         fontSize: "16px",
+        fontWeight: 100,
         transition: "opacity 0.2s",
     },
     "& .MuiInputBase-input:focus::placeholder": {
         opacity: 0,
     },
 }));
-
 const MinimizeButton = styled(Button)(({ }) => ({
     fontSize: "14px",
     fontWeight: 400,
@@ -67,7 +70,6 @@ const MinimizeButton = styled(Button)(({ }) => ({
         backgroundColor: "rgba(255, 255, 255, 0.1)",
     }
 }))
-
 const MaximizeButton = styled(Button)(({ }) => ({
     fontSize: "14px",
     fontWeight: 400,
@@ -85,7 +87,6 @@ const MaximizeButton = styled(Button)(({ }) => ({
         backgroundColor: "rgba(255, 255, 255, 0.1)",
     }
 }))
-
 const Exit = styled(Button)(({ }) => ({
     fontSize: "14px",
     fontWeight: 400,
@@ -103,8 +104,20 @@ const Exit = styled(Button)(({ }) => ({
         backgroundColor: "rgb(232, 17, 35)",
     }
 }));
-
 function Menu() {
+    const [isFocused, setIsFocused] = useState(true);
+    useEffect(() => {
+        // 监听窗口获得焦点事件
+        const listen_focus = getCurrentWindow().onFocusChanged(({ payload }) => {
+            setIsFocused(payload);
+        });
+
+        // 组件卸载时取消监听
+        return () => {
+            listen_focus.then((f) => f());
+        };
+    }, []);
+
     const minimize_window = async () => {
         getCurrentWindow().minimize();
     };
@@ -125,18 +138,18 @@ function Menu() {
     }
     return (
         <Box className="custom-title-bar">
-            <Box className="left">
+            <Box className="left" style={{ opacity: isFocused ? 1 : 0.5 }}>
                 {/* 左侧按钮和 logo 区域 */}
-                <img src={logo} className="logo" alt="Logo" />
+                <img src={logo} className="logo" alt="Logo"/>
                 <LeftButton onClick={button_edit}>编辑(E)</LeftButton>
                 <LeftButton onClick={button_setting}>设置(S)</LeftButton>
                 <LeftButton onClick={button_about}>关于(C)</LeftButton>
             </Box>
-            <Box className="center">
-                {/* 中间搜索框和撤销重做*/}
+            <Box className="center" style={{ opacity: isFocused ? 1 : 0.5 }}>
+                {/* 中间搜索框*/}
                 <CenterSearch placeholder="Search" />
             </Box>
-            <Box className="right">
+            <Box className="right" style={{ opacity: isFocused ? 1 : 0.5 }}>
                 {/* 右侧窗口控制按钮 */}
                 <MinimizeButton onClick={minimize_window}>—</MinimizeButton>
                 <MaximizeButton onClick={maximize_window}>▢</MaximizeButton>
@@ -145,5 +158,4 @@ function Menu() {
         </Box>
     )
 }
-
 export default Menu;

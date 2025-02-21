@@ -9,6 +9,7 @@ function App() {
       <main>
         <h1>中</h1>
       </main>
+      
     </div>
   );
 }

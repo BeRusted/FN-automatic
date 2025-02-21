@@ -45,3 +45,12 @@
     align-items: stretch;
     position: relative;
 }
+.remax{
+    position: absolute;
+    height: 9px;
+    width: 9px;
+    top: 10.5px; 
+    right: 72px; 
+    z-index: 1001;
+    pointer-events: none;
+}

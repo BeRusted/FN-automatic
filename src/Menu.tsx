@@ -1,6 +1,7 @@
-import { Box, Button, InputBase, styled, } from "@mui/material";
+import { Box, Button, InputBase, styled, Tooltip } from "@mui/material";
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import logo from "./assets/logo.svg"
+import remax from "./assets/remax.svg"
 import "./Menu.css";
 import { useState, useEffect } from "react";
 const LeftButton = styled(Button)(({ }) => ({
@@ -104,17 +105,39 @@ const Exit = styled(Button)(({ }) => ({
         backgroundColor: "rgb(232, 17, 35)",
     }
 }));
+const  RightTooltip = styled(Tooltip)(({ }) => ({
+    
+    "& .MuiTooltip-tooltip": {
+        fontSize: "11",
+        fontWeight: 100,
+        color: "#acacac",
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+ 
+
+    }
+}));
 function Menu() {
     const [isFocused, setIsFocused] = useState(true);
+    const [isMaximized, setIsMaximized] = useState(false);
+
     useEffect(() => {
-        // 监听窗口获得焦点事件
         const listen_focus = getCurrentWindow().onFocusChanged(({ payload }) => {
             setIsFocused(payload);
         });
 
-        // 组件卸载时取消监听
         return () => {
             listen_focus.then((f) => f());
+        };
+    }, []);
+
+    useEffect(() => {
+        const listen_maxsize = getCurrentWindow().listen('tauri://resize', async () => {
+            const maximized = await getCurrentWindow().isMaximized();
+            setIsMaximized(maximized);
+        });
+    
+        return () => {
+            listen_maxsize.then((f) => f());
         };
     }, []);
 
@@ -151,9 +174,16 @@ function Menu() {
             </Box>
             <Box className="right" style={{ opacity: isFocused ? 1 : 0.5 }}>
                 {/* 右侧窗口控制按钮 */}
+                {isMaximized && (<img src={remax} className="remax" alt="Remax"/>)}
+                <RightTooltip title="最小化">
                 <MinimizeButton onClick={minimize_window}>—</MinimizeButton>
+                </RightTooltip>
+                <RightTooltip title="Maximize">
                 <MaximizeButton onClick={maximize_window}>▢</MaximizeButton>
+                </RightTooltip>
+                <RightTooltip title="Close">
                 <Exit onClick={close_window}>✕</Exit>
+                </RightTooltip>
             </Box>
         </Box>
     )

@@ -1,4 +1,4 @@
-import { Box, Button, InputBase, styled, Tooltip } from "@mui/material";
+import { Box, Button, InputBase, styled } from "@mui/material";
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import logo from "./assets/logo.svg"
 import remax from "./assets/remax.svg"
@@ -55,7 +55,7 @@ const CenterSearch = styled(InputBase)(({ }) => ({
     },
 }));
 const MinimizeButton = styled(Button)(({ }) => ({
-    fontSize: "14px",
+    fontSize: "16px",
     fontWeight: 400,
     color: "rgb(187, 186, 186)",
     borderRadius: "0px",
@@ -89,7 +89,7 @@ const MaximizeButton = styled(Button)(({ }) => ({
     }
 }))
 const Exit = styled(Button)(({ }) => ({
-    fontSize: "14px",
+    fontSize: "16px",
     fontWeight: 400,
     color: "rgb(187, 186, 186)",
     borderRadius: "0px",
@@ -103,17 +103,6 @@ const Exit = styled(Button)(({ }) => ({
     "-webkit-app-region": "no-drag",
     "&:hover": {
         backgroundColor: "rgb(232, 17, 35)",
-    }
-}));
-const  RightTooltip = styled(Tooltip)(({ }) => ({
-    
-    "& .MuiTooltip-tooltip": {
-        fontSize: "11",
-        fontWeight: 100,
-        color: "#acacac",
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
- 
-
     }
 }));
 function Menu() {
@@ -174,16 +163,10 @@ function Menu() {
             </Box>
             <Box className="right" style={{ opacity: isFocused ? 1 : 0.5 }}>
                 {/* 右侧窗口控制按钮 */}
-                {isMaximized && (<img src={remax} className="remax" alt="Remax"/>)}
-                <RightTooltip title="最小化">
                 <MinimizeButton onClick={minimize_window}>—</MinimizeButton>
-                </RightTooltip>
-                <RightTooltip title="Maximize">
-                <MaximizeButton onClick={maximize_window}>▢</MaximizeButton>
-                </RightTooltip>
-                <RightTooltip title="Close">
+                {isMaximized && (<MaximizeButton onClick={maximize_window}><img src={remax} className="remax" alt="Remax"/></MaximizeButton>)}
+                {!isMaximized && (<MaximizeButton onClick={maximize_window}>▢</MaximizeButton>)}
                 <Exit onClick={close_window}>✕</Exit>
-                </RightTooltip>
             </Box>
         </Box>
     )

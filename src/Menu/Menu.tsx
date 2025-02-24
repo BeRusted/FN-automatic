@@ -1,7 +1,7 @@
 import { Box, Button, InputBase, styled } from "@mui/material";
 import { getCurrentWindow } from '@tauri-apps/api/window';
-import logo from "./assets/logo.svg"
-import remax from "./assets/remax.svg"
+import logo from "../assets/logo.svg"
+import remax from "../assets/remax.svg"
 import "./Menu.css";
 import { useState, useEffect } from "react";
 const LeftButton = styled(Button)(({ }) => ({

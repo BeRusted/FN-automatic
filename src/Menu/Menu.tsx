@@ -4,6 +4,7 @@ import logo from "../assets/logo.svg"
 import remax from "../assets/remax.svg"
 import "./Menu.css";
 import { useState, useEffect } from "react";
+import { Edit_submenu, Setting_submenu, Concerning_submenu } from "./Submenu";
 const LeftButton = styled(Button)(({ }) => ({
     fontSize: "13px",
     fontWeight: 100,

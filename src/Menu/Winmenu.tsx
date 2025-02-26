@@ -2,9 +2,10 @@ import { Box, Button, InputBase, styled } from "@mui/material";
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import logo from "../assets/logo.svg"
 import remax from "../assets/remax.svg"
-import "./Menu.css";
+import "./Winmenu.css";
 import { useState, useEffect } from "react";
-import { Edit_submenu, Concerning_submenu } from "./Submenu";
+import { Edit_submenu, Setting_submenu, Concerning_submenu } from "./Winsubmenu";
+
 const LeftButton = styled(Button)(({ }) => ({
     fontSize: "13px",
     fontWeight: 100,
@@ -106,13 +107,15 @@ const Exit = styled(Button)(({ }) => ({
         backgroundColor: "rgb(232, 17, 35)",
     }
 }));
-function Menu() {
-    const [isFocused, setIsFocused] = useState(true);
-    const [isMaximized, setIsMaximized] = useState(false);
+function Winmenu() {
+    const [is_focused, set_is_focused] = useState(true);
+    const [is_maximized, set_is_maximized] = useState(false);
+    const [showEditMenu, setShowEditMenu] = useState(false);
+    const [show_setting_menu, set_show_setting_menu] = useState(false);
 
     useEffect(() => {
         const listen_focus = getCurrentWindow().onFocusChanged(({ payload }) => {
-            setIsFocused(payload);
+            set_is_focused(payload);
         });
 
         return () => {
@@ -123,7 +126,7 @@ function Menu() {
     useEffect(() => {
         const listen_maxsize = getCurrentWindow().listen('tauri://resize', async () => {
             const maximized = await getCurrentWindow().isMaximized();
-            setIsMaximized(maximized);
+            set_is_maximized(maximized);
         });
     
         return () => {
@@ -141,35 +144,39 @@ function Menu() {
         getCurrentWindow().close();
     };
     const button_edit = () => {
-        Edit_submenu();
+        setShowEditMenu(true);
     }
     const button_about = () => {
-        console.log("关于按钮被点击");
+        set_show_setting_menu(true);
     };
     const button_setting = () => {
         console.log("设置按钮被点击");
     }
     return (
+        <>
         <Box className="custom-title-bar">
-            <Box className="left" style={{ opacity: isFocused ? 1 : 0.5 }}>
+            <Box className="left" style={{ opacity: is_focused ? 1 : 0.5 }}>
                 {/* 左侧按钮和 logo 区域 */}
                 <img src={logo} className="logo" alt="Logo"/>
                 <LeftButton onClick={button_edit}>编辑(E)</LeftButton>
                 <LeftButton onClick={button_setting}>设置(S)</LeftButton>
                 <LeftButton onClick={button_about}>关于(C)</LeftButton>
             </Box>
-            <Box className="center" style={{ opacity: isFocused ? 1 : 0.5 }}>
+            <Box className="center" style={{ opacity: is_focused ? 1 : 0.5 }}>
                 {/* 中间搜索框*/}
                 <CenterSearch placeholder="Search" />
             </Box>
-            <Box className="right" style={{ opacity: isFocused ? 1 : 0.5 }}>
+            <Box className="right" style={{ opacity: is_focused ? 1 : 0.5 }}>
                 {/* 右侧窗口控制按钮 */}
                 <MinimizeButton onClick={minimize_window}>—</MinimizeButton>
-                {isMaximized && (<MaximizeButton onClick={maximize_window}><img src={remax} className="remax" alt="Remax"/></MaximizeButton>)}
-                {!isMaximized && (<MaximizeButton onClick={maximize_window}>▢</MaximizeButton>)}
+                {is_maximized && (<MaximizeButton onClick={maximize_window}><img src={remax} className="remax" alt="Remax"/></MaximizeButton>)}
+                {!is_maximized && (<MaximizeButton onClick={maximize_window}>▢</MaximizeButton>)}
                 <Exit onClick={close_window}>✕</Exit>
             </Box>
         </Box>
+        {showEditMenu && <Edit_submenu open={showEditMenu} onClose={() => setShowEditMenu(false)} />}
+        {show_setting_menu && <Setting_submenu onClose={() => set_show_setting_menu(false)}/>}
+    </>
     )
 }
-export default Menu;
+export default Winmenu;

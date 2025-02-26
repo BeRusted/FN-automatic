@@ -1,0 +1,19 @@
+.Edit_submenu{
+    color: rgb(45, 42, 46);
+    z-index: 1001;
+}
+.Setting_submenu{
+    position: fixed;           /* 脱离文档流，相对于窗口定位 */
+    left: 50%;                 /* 定位到窗口水平中间 */
+    top: 50%;                  /* 定位到窗口垂直中间 */
+    transform: translate(-50%, -50%); /* 精确居中 */
+    color: rgb(45, 42, 46);
+    width: 200px;
+    height: 200px;
+    background-color: aqua;
+    z-index: 998;             /* 设置较高的层级，确保悬浮在其他元素上方 */
+}
+.Concerning_submenu{
+    color: rgb(45, 42, 46);
+    z-index: 1001;
+}

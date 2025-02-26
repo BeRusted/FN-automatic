@@ -4,7 +4,7 @@ import logo from "../assets/logo.svg"
 import remax from "../assets/remax.svg"
 import "./Winmenu.css";
 import { useState, useEffect } from "react";
-import { Edit_submenu, Setting_submenu, Concerning_submenu } from "./Winsubmenu";
+import { Edit_submenu, Setting_submenu, About_submenu } from "./Winsubmenu";
 
 const LeftButton = styled(Button)(({ }) => ({
     fontSize: "13px",
@@ -110,8 +110,7 @@ const Exit = styled(Button)(({ }) => ({
 function Winmenu() {
     const [is_focused, set_is_focused] = useState(true);
     const [is_maximized, set_is_maximized] = useState(false);
-    const [showEditMenu, setShowEditMenu] = useState(false);
-    const [show_setting_menu, set_show_setting_menu] = useState(false);
+    const [active_menu, set_active_menu] = useState(null);
 
     useEffect(() => {
         const listen_focus = getCurrentWindow().onFocusChanged(({ payload }) => {
@@ -143,24 +142,15 @@ function Winmenu() {
     const close_window = async () => {
         getCurrentWindow().close();
     };
-    const button_edit = () => {
-        setShowEditMenu(true);
-    }
-    const button_about = () => {
-        set_show_setting_menu(true);
-    };
-    const button_setting = () => {
-        console.log("设置按钮被点击");
-    }
     return (
         <>
         <Box className="custom-title-bar">
             <Box className="left" style={{ opacity: is_focused ? 1 : 0.5 }}>
                 {/* 左侧按钮和 logo 区域 */}
                 <img src={logo} className="logo" alt="Logo"/>
-                <LeftButton onClick={button_edit}>编辑(E)</LeftButton>
-                <LeftButton onClick={button_setting}>设置(S)</LeftButton>
-                <LeftButton onClick={button_about}>关于(C)</LeftButton>
+                <LeftButton className="menu_button" onClick={() =>{ set_active_menu(active_menu === 'Edit' ? null : 'Edit'); }}>编辑(E)</LeftButton>
+                <LeftButton className="menu_button" onClick={() =>{ set_active_menu(active_menu === 'Setting' ? null : 'Setting'); }}>设置(S)</LeftButton>
+                <LeftButton className="menu_button" onClick={() =>{ set_active_menu(active_menu === 'About' ? null : 'About');}}>关于(C)</LeftButton>
             </Box>
             <Box className="center" style={{ opacity: is_focused ? 1 : 0.5 }}>
                 {/* 中间搜索框*/}
@@ -174,8 +164,11 @@ function Winmenu() {
                 <Exit onClick={close_window}>✕</Exit>
             </Box>
         </Box>
-        {showEditMenu && <Edit_submenu open={showEditMenu} onClose={() => setShowEditMenu(false)} />}
-        {show_setting_menu && <Setting_submenu onClose={() => set_show_setting_menu(false)}/>}
+        {/* 子菜单 */}
+        {active_menu === 'Edit' && <Edit_submenu onClose={() => set_active_menu(null)} />}
+        {active_menu === 'Setting' && <Setting_submenu onClose={() => set_active_menu(null)} />}
+        {active_menu === 'About' && <About_submenu onClose={() => set_active_menu(null)} />}
+
     </>
     )
 }

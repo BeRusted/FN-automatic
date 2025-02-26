@@ -4,7 +4,7 @@ import logo from "../assets/logo.svg"
 import remax from "../assets/remax.svg"
 import "./Menu.css";
 import { useState, useEffect } from "react";
-import { Edit_submenu, Setting_submenu, Concerning_submenu } from "./Submenu";
+import { Edit_submenu, Concerning_submenu } from "./Submenu";
 const LeftButton = styled(Button)(({ }) => ({
     fontSize: "13px",
     fontWeight: 100,
@@ -141,7 +141,7 @@ function Menu() {
         getCurrentWindow().close();
     };
     const button_edit = () => {
-        console.log("编辑按钮被点击");
+        Edit_submenu();
     }
     const button_about = () => {
         console.log("关于按钮被点击");

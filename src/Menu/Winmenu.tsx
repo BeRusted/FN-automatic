@@ -4,7 +4,7 @@ import logo from "../assets/logo.svg"
 import remax from "../assets/remax.svg"
 import "./Winmenu.css";
 import { useState, useEffect } from "react";
-import { Edit_submenu, Setting_submenu, About_submenu } from "./Winsubmenu";
+import { Edit_submenu, Setting_submenu, File_submenu } from "./Winsubmenu";
 
 const LeftButton = styled(Button)(({ }) => ({
     fontSize: "13px",
@@ -148,9 +148,9 @@ function Winmenu() {
             <Box className="left" style={{ opacity: is_focused ? 1 : 0.5 }}>
                 {/* 左侧按钮和 logo 区域 */}
                 <img src={logo} className="logo" alt="Logo"/>
+                <LeftButton className="menu_button" onClick={() =>{ set_active_menu(active_menu === 'File' ? null : 'File');}}>文件(F)</LeftButton>
                 <LeftButton className="menu_button" onClick={() =>{ set_active_menu(active_menu === 'Edit' ? null : 'Edit'); }}>编辑(E)</LeftButton>
                 <LeftButton className="menu_button" onClick={() =>{ set_active_menu(active_menu === 'Setting' ? null : 'Setting'); }}>设置(S)</LeftButton>
-                <LeftButton className="menu_button" onClick={() =>{ set_active_menu(active_menu === 'About' ? null : 'About');}}>关于(C)</LeftButton>
             </Box>
             <Box className="center" style={{ opacity: is_focused ? 1 : 0.5 }}>
                 {/* 中间搜索框*/}
@@ -165,9 +165,10 @@ function Winmenu() {
             </Box>
         </Box>
         {/* 子菜单 */}
+        {active_menu === 'File' && <File_submenu onClose={() => set_active_menu(null)} />}
         {active_menu === 'Edit' && <Edit_submenu onClose={() => set_active_menu(null)} />}
         {active_menu === 'Setting' && <Setting_submenu onClose={() => set_active_menu(null)} />}
-        {active_menu === 'About' && <About_submenu onClose={() => set_active_menu(null)} />}
+        
 
     </>
     )

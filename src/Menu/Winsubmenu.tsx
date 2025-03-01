@@ -1,31 +1,45 @@
 import "./Winsubmenu.css";
 import { useEffect, useRef } from "react";
-import React from "react";
 import { Button, Box, styled, } from "@mui/material";
 import Draggable from 'react-draggable';
 
 const SubmenuButton = styled(Button)(({ }) => ({/* 不包含设置(S)的子菜单 */
   fontSize: "13px",
-    fontWeight: 100,
-    color: "rgb(255, 255, 255)",
-    background: "none",
-    border: "none",
-    padding: "3px 13px",
-    width: "100%",
-    height: "25px",
-    cursor: "default",
-    display: "flex",
-    justifyContent: "space-between", 
-    alignItems: "center",
-    textTransform:"capitalize" ,
-    "&:hover": {
-        backgroundColor: "rgba(255, 255, 255, 0.1)",
-        color: "rgb(255, 216, 102)",
-    },
+  fontWeight: 100,
+  color: "rgb(255, 255, 255)",
+  background: "none",
+  border: "none",
+  padding: "3px 13px",
+  width: "100%",
+  height: "25px",
+  cursor: "default",
+  display: "flex",
+  justifyContent: "space-between", 
+  alignItems: "center",
+  textTransform:"capitalize" ,
+  "&:hover": {
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    color: "rgb(255, 216, 102)",
+  },
 }));
 
 const SettingSubmenuButton = styled(Button)(({ }) => ({/* 设置(S)的子菜单独做,和其他子菜单的样式不同 */
-}));    
+  fontSize: "13px",
+  fontWeight: 100,
+  color: "rgb(255, 255, 255)",
+  background: "none",
+  border: "none",
+  padding: "3px 13px",
+  width: "10%",
+  minWidth: "0",
+  height: "25%",
+  cursor: "default",
+  position: "relative",
+  zIndex: 1,
+  "&:hover": {
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+  },
+}));   
 function File_submenu({ onClose }) {
   const submenuRef = useRef(null);
 
@@ -136,13 +150,18 @@ function Setting_submenu({ onClose }) {
     };
   }, [onClose]);
 
+
+  /* 设置子菜单的初始位置 - 居中 */
+  const initial_X = (window.innerWidth / 4);
+  const initial_Y = (window.innerHeight / 4);
   return (
-    <Draggable>
+    <Draggable defaultPosition={{ x: initial_X, y: initial_Y }} bounds={{left: 0, top: 35, right: window.innerWidth*0.5, bottom: window.innerHeight*0.5}} cancel=".Setting_button">
       <Box ref={submenuRef} className="Setting_submenu">
-        <SubmenuButton disableRipple>语言</SubmenuButton>
-        <SubmenuButton disableRipple>主题</SubmenuButton>
-        <SubmenuButton disableRipple>教程</SubmenuButton>
-        <SubmenuButton disableRipple>关于</SubmenuButton>
+        <SettingSubmenuButton disableRipple className="Setting_button">功能</SettingSubmenuButton>
+        <SettingSubmenuButton disableRipple className="Setting_button">语言</SettingSubmenuButton>
+        <SettingSubmenuButton disableRipple className="Setting_button">主题</SettingSubmenuButton>
+        <SettingSubmenuButton disableRipple className="Setting_button">教程</SettingSubmenuButton>
+        <SettingSubmenuButton disableRipple className="Setting_button">关于</SettingSubmenuButton>
       </Box>
     </Draggable>
   );

@@ -1,10 +1,12 @@
+
 .File_submenu{
     position: fixed;           
     left: 36px;                 
     top: 31px; 
     width: 200px;
     height: 100px;
-    background-color: rgb(38, 36, 39);
+    background-color: rgb(68, 66, 70);
+    border-radius: 5px;
     z-index: 1001;
 }
 .Edit_submenu{
@@ -13,16 +15,28 @@
     top: 31px; 
     width: 200px;
     height: 150px;
-    background-color: rgb(38, 36, 39);
+    background-color: rgb(68, 66, 70);
+    border-radius: 5px;
     z-index: 1001;    
 }
-
 .Setting_submenu{
-    position: fixed;           
-    left: 146px;                 
-    top: 31px;
-    width: 200px;
-    height: 200px;
-    background-color: rgb(38, 36, 39);
+    position: fixed;
+    display: flex;
+    flex-direction: column;     
+    width: 50%;
+    height: 50%;
+    background-color: rgb(68, 66, 70);
+    border-radius: 5px;
     z-index: 1001;             
+}
+.Setting_submenu::after {
+    content: "";
+    position: absolute;
+    border-radius: 5px 0 0 5px;
+    left: 0;
+    top:0;
+    width: 10%;
+    height: 100%;
+    background-color: rgb(34, 31, 34);
+    z-index: 0;
 }
